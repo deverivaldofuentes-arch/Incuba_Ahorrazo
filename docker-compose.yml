@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ahorrazo_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=ahorrazo
+      - DB_USERNAME=ahorrazo
+      - DB_PASSWORD=ahorrazo
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ahorrazo_network
+
+  db:
+    image: postgres:15-alpine
+    container_name: ahorrazo_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ahorrazo
+      POSTGRES_USER: ahorrazo
+      POSTGRES_PASSWORD: ahorrazo
+    ports:
+      - "5432:5432"
+    volumes:
+      - ahorrazo_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ahorrazo -d ahorrazo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ahorrazo_network
+
+volumes:
+  ahorrazo_postgres_data:
+    driver: local
+
+networks:
+  ahorrazo_network:
+    driver: bridge
