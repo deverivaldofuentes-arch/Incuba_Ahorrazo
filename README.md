@@ -21,7 +21,7 @@ Para ejecutar este proyecto en cualquier sistema operativo (Linux, macOS o Windo
 
 ```bash
 # 1. Clonar el proyecto (si aún no lo has hecho)
-git clone <URL_DEL_REPOSITORIO> Ahorrazo
+git clone https://github.com/deverivaldofuentes-arch/Incuba_Ahorrazo.git
 cd Ahorrazo
 
 # 2. Copiar el archivo de variables de entorno
