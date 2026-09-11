@@ -30,6 +30,9 @@ cp .env.example .env
 # 3. Construir e iniciar los contenedores en segundo plano
 docker compose up -d --build
 
+# 3.5 Instalar dependencias de PHP
+docker compose run --rm app composer install
+
 # 4. Generar la clave de la aplicación Laravel
 docker compose exec app php artisan key:generate
 
